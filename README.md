@@ -475,40 +475,49 @@ node test-login-all.js
    → Hệ thống lưu thông tin → [End]
 ```
 
-### 🔄 Sequence Diagrams (Slides 16, 20, 24)
+### 🔄 Sequence Diagrams
+
+**Luồng tương tác Đăng ký Dịch vụ:**
 
 ```
-Khách hàng → Giao diện → Hệ thống → Database
-   │           │           │          │
-   │──Chọn───►│           │          │
-   │           │──Yêu cầu─►│          │
-   │           │           │──Truy vấn►│
-   │           │           │◄─Kết quả─│
-   │◄──Hiển───│◄─thị──────│          │
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│  Khách   │    │  Giao    │    │  Hệ      │    │  Database │
+│  hàng    │    │  diện    │    │  thống   │    │           │
+└────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘
+     │               │               │               │
+     │──1. Chọn─────►│               │               │
+     │   dịch vụ     │               │               │
+     │               │──2. Yêu cầu──►│               │
+     │               │   tìm HLV     │               │
+     │               │               │──3. Truy vấn──►│
+     │               │               │   HLV         │
+     │               │               │◄──4. Trả──────│
+     │               │               │   kết quả     │
+     │◄──5. Hiển─────│◄──6. Trả───────│               │
+     │   thị danh    │   kết quả     │               │
+     │   sách HLV    │               │               │
+└────┴─────┘    └────┴─────┘    └────┴─────┘    └────┴─────┘
 ```
 
-### 📈 Key Business Metrics
+### 📈 Chỉ số Kinh doanh Quan trọng
 
-| Metric | Calculation | API Endpoint |
-|--------|-------------|--------------|
-| **Active Customers** | `COUNT(Customer WHERE membershipEndDate > NOW)` | `/api/reports/customers/active` |
-| **Monthly Revenue** | `SUM(ServiceRegistration.totalPrice WHERE status='completed')` | `/api/reports/revenue/monthly` |
-| **Equipment Utilization** | `COUNT(Equipment WHERE status='in-use') / COUNT(All)` | `/api/reports/equipment/status` |
-| **Trainer Workload** | `AVG(Sessions per Trainer)` | `/api/reports/trainers/workload` |
-| **Customer Retention** | `(New - Churned) / Total * 100` | `/api/reports/customers/retention` |
+| Chỉ số | Cách tính | API Endpoint |
+|--------|-----------|--------------|
+| **Khách hàng đang hoạt động** | Đếm khách có membership còn hạn | `/api/reports/customers/active` |
+| **Doanh thu tháng** | Tổng tiền từ đăng ký đã hoàn thành | `/api/reports/revenue/monthly` |
+| **Tỷ lệ sử dụng thiết bị** | Số thiết bị đang dùng / Tổng số | `/api/reports/equipment/status` |
+| **Khối lượng công việc HLV** | Trung bình số buổi/HLV | `/api/reports/trainers/workload` |
+| **Tỷ lệ giữ chân khách** | (Mới - Rời đi) / Tổng * 100 | `/api/reports/customers/retention` |
 
-### 🔄 System Automation (Cron Jobs)
+### 🔄 Tự động hóa Hệ thống
 
-```javascript
-// ⏰ Daily: Kiểm tra tài khoản hết hạn
-setInterval(checkExpiredMemberships, 24 * 60 * 60 * 1000);
+Hệ thống tự động chạy các tác vụ theo lịch:
 
-// 📧 Weekly: Gửi email nhắc nhở gia hạn
-setInterval(sendRenewalReminders, 7 * 24 * 60 * 60 * 1000);
-
-// 🔧 Monthly: Tạo lịch bảo trì thiết bị
-setInterval(scheduleMaintenance, 30 * 24 * 60 * 60 * 1000);
-```
+| Tần suất | Tác vụ | Chức năng |
+|----------|--------|-----------|
+| ⏰ **Hàng ngày** | Kiểm tra membership hết hạn | Tự động vô hiệu hóa tài khoản quá hạn |
+| 📧 **Hàng tuần** | Gửi email nhắc nhở | Thông báo khách hàng sắp hết hạn gói tập |
+| 🔧 **Hàng tháng** | Lập lịch bảo trì | Tạo reminder bảo trì định kỳ thiết bị |
 
 ---
 
@@ -543,30 +552,6 @@ setInterval(scheduleMaintenance, 30 * 24 * 60 * 60 * 1000);
 | **Yup** | Form Validation | ^0.x |
 
 ---
-
-## 📞 Hỗ trợ & Liên hệ
-
-### 🐛 Bug Reporting Template
-
-```markdown
-**Bug Title:** [Mô tả ngắn gọn]
-
-**Environment:**
-- OS: [Windows/Linux/Mac]
-- Browser: [Chrome/Firefox/Safari]
-- Node Version: [v14.x.x]
-
-**Steps to Reproduce:**
-1. Step 1
-2. Step 2
-3. Step 3
-
-**Expected Result:** [Kết quả mong đợi]
-**Actual Result:** [Kết quả thực tế]
-
-**Screenshots:** [Nếu có]
-**Logs:** [Error logs]
-```
 
 ### 🚀 Deployment
 
