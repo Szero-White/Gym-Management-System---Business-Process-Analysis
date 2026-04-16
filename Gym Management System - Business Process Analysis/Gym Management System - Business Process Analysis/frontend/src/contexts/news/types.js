@@ -1,0 +1,10 @@
+export const GET_NEWS = 'GET_NEWS';
+export const GET_NEWS_DETAIL = 'GET_NEWS_DETAIL';
+export const ADD_NEWS = 'ADD_NEWS';
+export const UPDATE_NEWS = 'UPDATE_NEWS';
+export const DELETE_NEWS = 'DELETE_NEWS';
+export const TOGGLE_FEATURED = 'TOGGLE_FEATURED';
+export const TOGGLE_ACTIVE = 'TOGGLE_ACTIVE';
+export const NEWS_ERROR = 'NEWS_ERROR';
+export const CLEAR_NEWS = 'CLEAR_NEWS';
+export const SET_LOADING = 'SET_LOADING';

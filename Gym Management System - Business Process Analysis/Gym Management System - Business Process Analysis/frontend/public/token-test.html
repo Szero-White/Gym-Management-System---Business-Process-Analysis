@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Token Test</title>
+</head>
+
+<body>
+    <h1>Token Test</h1>
+    <button onclick="checkToken()">Kiểm tra token</button>
+    <button onclick="clearToken()">Xóa token</button>
+    <button onclick="setTestToken()">Đặt token test</button>
+    <div id="result"></div>
+
+    <script>
+        function checkToken() {
+            const token = localStorage.getItem('token');
+            document.getElementById('result').innerHTML =
+                `Token: ${token ? token : 'Không có token'}`;
+        }
+
+        function clearToken() {
+            localStorage.removeItem('token');
+            document.getElementById('result').innerHTML = 'Token đã bị xóa';
+        }
+
+        function setTestToken() {
+            localStorage.setItem('token', 'test-token-123');
+            document.getElementById('result').innerHTML = 'Token test đã được đặt';
+        }
+
+        // Kiểm tra khi trang tải
+        window.onload = checkToken;
+    </script>
+</body>
+
+</html>
